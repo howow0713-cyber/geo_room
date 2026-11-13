@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ⅳ-4 에너지 소비와 탄소중립 수업자료</title>
+<link rel="stylesheet" href="../common/resource.css">
+<style>
+/* 학습지 쪽·항목 표시 (작은 회색) */
+.ws { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; line-height: 1.5; color: var(--muted); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 0 7px; white-space: nowrap; align-self: flex-start; }
+.ws::before { content: "학습지"; font-weight: 500; opacity: .8; }
+.sub-h .ws { margin-left: 4px; }
+/* 출처 글자 작게 */
+.stat .src, .hbars .src, .kmap-source, .credit, .item .meta, .part > header .ref, .ph .credit { font-size: 11px !important; }
+.foot-note { font-size: 12px; }
+/* 찾아보기 표 */
+.map-table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--surface); }
+.map-table th, .map-table td { border: 1px solid var(--ink); padding: 5px 10px; text-align: left; vertical-align: top; }
+.map-table th { background: var(--bg); font-weight: 700; white-space: nowrap; }
+.map-table td:first-child { white-space: nowrap; font-weight: 700; }
+.map-table a { text-decoration: none; }
+.map-table a:hover { text-decoration: underline; }
+.tbl-wrap { overflow-x: auto; }
+/* 사진 중심 카드: 사진 → 한 줄 설명 → 질문 */
+.why { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.why article { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 6px; }
+.why h4 { font-size: 16px; }
+.why .gallery { grid-template-columns: 1fr; gap: 6px; }
+.why .gallery.two { grid-template-columns: 1fr 1fr; }
+.why .ph { border: 0; padding: 0; background: none; }
+.why .ph .note { display: none; }
+.why p { margin: 0; font-size: 14.5px; }
+.why .q { font-size: 14px; color: var(--muted); }
+.gallery.full .ph button { aspect-ratio: auto; }
+.gallery.full .ph img { height: auto; }
+/* 순서 한눈에 보기 */
+.order { margin-top: 12px; padding: 12px 14px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; display: flex; flex-direction: column; gap: 10px; }
+.order > h3 { font-size: 16px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.order > h3::before { content: "순서 한눈에"; font-size: 12px; font-weight: 700; color: var(--surface); background: var(--muted); border-radius: 4px; padding: 1px 7px; }
+.order .hbars { border: 0; padding: 0; }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; align-items: start; }
+.chart-grid .ph, .order .ph { border: 0; padding: 0; background: none; }
+.gallery.full .ph .note { display: block; }
+/* 사진 옆 위치 지도 */
+.ph.has-loc figcaption { display: grid; grid-template-columns: 1fr auto; column-gap: 8px; align-items: start; }
+.ph.has-loc figcaption > span { grid-column: 1; }
+.order .gallery, .chart-grid .gallery { grid-template-columns: 1fr; }
+.ph .loc { grid-column: 2; grid-row: 1 / span 4; width: 72px; height: auto; display: block; }
+.why .gallery.two .ph .loc { width: 56px; }
+.ph .loc path { fill: #c5ccc8; stroke: var(--surface); stroke-width: 6; }
+.ph .loc circle { fill: #dc2626; stroke: #fff; stroke-width: 10; }
+.ph .loc text { font-size: 84px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 14px; }
+.why .q::before { content: "Q. "; font-weight: 700; color: var(--accent); }
+/* 막대그래프 · 움짤 */
+.hbars { display: flex; flex-direction: column; gap: 7px; margin: 0; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.hbars h3 { font-size: 15px; margin-bottom: 4px; }
+.hbar { display: grid; grid-template-columns: 6.5em 1fr 5em; align-items: center; gap: 10px; font-size: 14px; }
+.hbar .track { height: 18px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+.hbar .track i { display: block; height: 100%; background: var(--c3); border-radius: 3px; }
+.hbar.warm .track i { background: var(--warm); }
+.hbar .v { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.hbars .src { color: var(--muted); margin-top: 4px; }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.gif { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+.gif img { width: 100%; height: auto; display: block; border-radius: 4px; }
+.gif figcaption { font-size: 13px; color: var(--muted); }
+.ext { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 8px 14px; border: 1px dashed var(--accent); border-radius: 8px; background: var(--accent-soft); font-size: 14px; }
+.ext b { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="res-head">
+    <span class="eyebrow">Ⅳ. 환경과 지속가능성 탐구 · 12한탐04-04 · 학습지 72~78쪽</span>
+    <h1>4. 에너지 소비와 탄소중립</h1>
+    <p>자료마다 <span class="ws">73쪽 2)(2)② 석탄</span>처럼 학습지 쪽·항목을 붙였습니다. 사진을 누르면 화면 위로 크게 떠오릅니다.</p>
+  </header>
+
+  <div class="tbl-wrap">
+    <table class="map-table">
+      <thead><tr><th>학습지</th><th>학습지 항목</th><th>이 자료에서 볼 것</th></tr></thead>
+      <tbody>
+        <tr><td>72쪽</td><td><a href="#s72">1. 1차 에너지 · 소비 구조 · 1차 에너지 비교</a></td><td>수입 의존도, 공급 비중·온실가스 그래프</td></tr>
+        <tr><td>73쪽</td><td><a href="#s73a">1) 생산 지역 (석탄 · 원자력)</a></td><td>생산량 순서 그래프, 평안 누층군 지도, 원자력 사진</td></tr>
+        <tr><td>73쪽</td><td><a href="#s73b">2)(1) 시·도 간 공급량 · (2) 자원별 공급량</a></td><td>사진·지도로 보는 '왜 그곳에서 많이 쓸까'</td></tr>
+        <tr><td>74쪽</td><td><a href="#s74">신·재생 에너지 (태양광 · 수력 · 풍력 · 조력) · 양수 발전</a></td><td>입지 그림, 생산량 그래프, 수력 사진, 양수 발전 움짤과 통계 비교</td></tr>
+        <tr><td>75쪽</td><td><a href="#s75">3) 전력 생산 · 입지 조건과 분포</a></td><td>발전소 사진·지도, 독일 vs 프랑스</td></tr>
+        <tr><td>76쪽</td><td><a href="#s76">2. 에너지 쟁점 · 시·도별 발전량과 판매량</a></td><td>충남 발전 1위·경기 소비 1위, 송전탑, 국산 가스</td></tr>
+        <tr><td>77쪽</td><td><a href="#s77">3. 탄소중립</a></td><td>탄소의 세 색깔 사진, 2035 감축 목표, 노원 에너지 제로 주택</td></tr>
+        <tr><td>78쪽</td><td><a href="#s78">기후변화 협상 · 환경 협약</a></td><td>투발루 연설, 미국 탈퇴, 오존층 회복, 우포늪</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ext"><b>외부 사이트</b> 위쪽 탭 「자원지도 분석」<span class="ws">74쪽</span>, 「주요 발전소 분포」<span class="ws">75쪽</span>을 누르면 이 칸에 열립니다.</p>
+
+  <!-- ===================== 72쪽 ===================== -->
+  <section class="part" id="s72">
+    <header><span class="ref">학습지 72쪽 · 교과서 151~153쪽</span><h2><b>1.</b>우리는 어떤 에너지를 소비하고 있을까?</h2></header>
+    <div class="why">
+      <article>
+        <span class="ws">72쪽 1)① 1차 에너지 '특징'</span>
+        <div class="gallery" data-photos='[["tb-panel","배전함 문구 · 전기는 국산, 원료는 수입",""]]'></div>
+        <p>에너지 수입 의존도 <b>94.8%</b>(2022). 전기는 국내에서 만들지만 원료는 거의 모두 배로 들여온다.</p>
+      </article>
+      <article>
+        <span class="ws">72쪽 1)② 최종 에너지</span>
+        <div class="gallery" data-photos='[["tb-exhaust","자동차가 쓰는 휘발유·경유 = 최종 에너지",""]]'></div>
+        <p class="q">석탄은 발전소에 들어가면 1차 에너지, 제철소 용광로에 들어가면 최종 에너지. 왜 그럴까?</p>
+      </article>
+    </div>
+    <div class="duo" style="margin-top:12px">
+      <figure class="hbars">
+        <span class="ws">72쪽 2)(1) 소비 비중</span>
+        <h3>1차 에너지 공급량 (2023, 천 TOE)</h3>
+        <div class="hbar"><span>석유</span><span class="track"><i style="width:100%"></i></span><span class="v">116,153</span></div>
+        <div class="hbar"><span>석탄</span><span class="track"><i style="width:61.1%"></i></span><span class="v">70,942</span></div>
+        <div class="hbar"><span>천연가스</span><span class="track"><i style="width:49.4%"></i></span><span class="v">57,397</span></div>
+        <div class="hbar"><span>원자력</span><span class="track"><i style="width:33.1%"></i></span><span class="v">38,445</span></div>
+        <div class="hbar"><span>신·재생</span><span class="track"><i style="width:20.7%"></i></span><span class="v">24,067</span></div>
+        <div class="hbar"><span>수력</span><span class="track"><i style="width:1.4%"></i></span><span class="v">1,598</span></div>
+        <figcaption class="src">이것이 개념이다 한국지리 144쪽 · 에너지경제연구원(2023)</figcaption>
+      </figure>
+      <figure class="hbars">
+        <span class="ws">72쪽 개념 심화 '온실가스 배출'</span>
+        <h3>전기 100만 kWh를 만들 때 나오는 온실가스 (t)</h3>
+        <div class="hbar warm"><span>석탄</span><span class="track"><i style="width:100%"></i></span><span class="v">888</span></div>
+        <div class="hbar warm"><span>천연가스</span><span class="track"><i style="width:56.3%"></i></span><span class="v">500</span></div>
+        <div class="hbar warm"><span>태양광</span><span class="track"><i style="width:9.6%"></i></span><span class="v">85</span></div>
+        <div class="hbar warm"><span>원자력</span><span class="track"><i style="width:3.2%"></i></span><span class="v">28</span></div>
+        <div class="hbar warm"><span>풍력</span><span class="track"><i style="width:2.9%"></i></span><span class="v">26</span></div>
+        <figcaption class="src">교과서 156쪽 · 유럽 연합 합동 연구 센터(JRC, 2021)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== 73쪽 생산 ===================== -->
+  <section class="part" id="s73a">
+    <header><span class="ref">학습지 73쪽 · 교과서 152쪽</span><h2><b>심화 1)</b>1차 에너지는 왜 그곳에서 생산될까?</h2></header>
+    <div class="why">
+      <article>
+        <span class="ws">73쪽 1)(2)① 석탄</span>
+        <h4>석탄 · 강원 삼척·태백</h4>
+        <div class="gallery full" data-photos='[["u-pyeongan","평안 누층군 · 조선 누층군 분포",""]]'></div>
+        <p>무연탄이 든 고생대 평안 누층군(검은색)이 강원 남부(삼척·태백)에 넓게 드러나 있다. 2025년 6월 삼척 도계광업소를 끝으로 국영 탄광은 모두 문을 닫았다(<a href="https://www.etoday.co.kr/news/view/2483437" target="_blank" rel="noopener">이투데이</a>).</p>
+      </article>
+      <article>
+        <span class="ws">73쪽 1)(2)② 원자력</span>
+        <h4>원자력 · 모두 바닷가</h4>
+        <div class="gallery" data-photos='[["kori","고리 원자력 발전소 (부산 기장)","국내 첫 원전 고리 1호기(1978)가 있던 곳"]]'></div>
+        <p>원자로를 식힐 냉각수(바닷물)가 많이 필요하다. 월성·한울 두 단지가 있는 경북이 생산량 1위.</p>
+      </article>
+    </div>
+    <div class="order">
+      <h3>1차 에너지 생산량 <span class="ws">73쪽 1)(1) 국내 생산량 · (2) 자원별 생산량</span></h3>
+      <div class="chart-grid">
+        <figure class="hbars">
+          <h3>국내 생산량 (2023, 천 TOE)</h3>
+          <div class="hbar"><span>원자력</span><span class="track"><i style="width:100%"></i></span><span class="v">38,445</span></div>
+          <div class="hbar"><span>신·재생</span><span class="track"><i style="width:62.6%"></i></span><span class="v">24,067</span></div>
+          <div class="hbar"><span>수력</span><span class="track"><i style="width:4.2%"></i></span><span class="v">1,598</span></div>
+          <div class="hbar"><span>석탄</span><span class="track"><i style="width:0.8%"></i></span><span class="v">304</span></div>
+          <div class="hbar"><span>천연가스</span><span class="track"><i style="width:0%"></i></span><span class="v">0</span></div>
+          <figcaption class="src">이것이 개념이다 한국지리 145쪽 · 천연가스는 2021년 12월 생산 종료, 석유는 전량 수입</figcaption>
+        </figure>
+        <div class="gallery full" data-photos='[["gn-prod-sido","자원별 시·도 생산량 비중 (2023)","원자력 = 경북 > 전남 > 부산 > 울산 / 석탄 = 강원 약 90%"]]'></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 73쪽 공급 ===================== -->
+  <section class="part" id="s73b">
+    <header><span class="ref">학습지 73쪽</span><h2><b>심화 2)</b>1차 에너지는 왜 그곳에서 많이 쓸까?</h2></header>
+    <div class="why">
+      <article>
+        <span class="ws">73쪽 2)(1) 충남 · 2)(2)② 석탄</span>
+        <h4>충남 · 석탄 공급 1위</h4>
+        <div class="gallery two" data-photos='[["tb-boryeong","보령 화력 (발전용)",""],["tb-steel","제철소 (제철용)",""]]'></div>
+        <p>석탄 화력(보령·태안·당진)과 제철소(당진)가 모두 있다. 석탄은 집이 아니라 발전소·제철소가 쓴다.</p>
+        <p class="q">탄광이 있던 강원보다 충남이 석탄을 훨씬 많이 쓰는 까닭은?</p>
+      </article>
+      <article>
+        <span class="ws">73쪽 2)(2)① 석유</span>
+        <h4>석유 · 울산 · 여수 · 서산</h4>
+        <div class="gallery" data-photos='[["tb-offshore","바다에서 원유·가스를 뽑는 시추 시설","우리나라는 원유를 전량 수입한다"]]'></div>
+        <p>수입 원유를 유조선에서 바로 내리는 항구 옆에 석유 화학 단지가 있다. 석유는 연료보다 플라스틱의 '재료'로 더 많이 쓰인다.</p>
+        <p class="q">인구 1위 경기가 석유 공급 1위가 아닌 까닭은?</p>
+      </article>
+      <article>
+        <span class="ws">73쪽 2)(2)③ 천연가스</span>
+        <h4>천연가스 · 수도권</h4>
+        <div class="gallery" data-photos='[["tb-nowon","서울 노원의 아파트 · 대도시는 도시가스 수요가 크다",""]]'></div>
+        <p>도시가스는 사람 수에 비례한다. 오염이 적어 경기·인천 같은 대도시 가까이에 천연가스 발전소를 짓는다.</p>
+      </article>
+      <article>
+        <span class="ws">73쪽 2)(2)④ 원자력</span>
+        <h4>원자력 · 발전소 있는 곳에서만</h4>
+        <div class="gallery" data-photos='[["kori","원전이 있는 부산·울산·경북·전남에만 공급량이 있다",""]]'></div>
+        <p>우라늄이 발전소에 들어가는 순간 그 시·도의 소비로 센다. 서울이 쓰는 원자력 전기도 통계에는 '경북 소비'.</p>
+      </article>
+    </div>
+    <div class="order">
+      <h3>시·도별 1차 에너지 공급량 <span class="ws">73쪽 2)(1) 시·도 간 공급량 · (2) 자원별 공급량</span></h3>
+      <div class="gallery full" data-photos='[["gn-supply-sido","시·도별 1차 에너지원별 공급량 (2023)","충남 > 전남 > 경북·경기·울산 순 · 석유 화학·제철·발전소가 있는 곳"]]'></div>
+    </div>
+    <div class="block" style="margin-top:12px">
+      <h3>지도로 보기 석유 화학 단지 · 제철소 · LNG 기지</h3>
+      <div id="map-facility"></div>
+      <p class="ask"><b>질문</b>세 시설이 모두 바닷가 항구에 있는 까닭은?</p>
+    </div>
+  </section>
+
+  <!-- ===================== 74쪽 ===================== -->
+  <section class="part" id="s74">
+    <header><span class="ref">학습지 74쪽 · 교과서 152쪽</span><h2><b>심화</b>신·재생 에너지는 왜 그곳에서 생산될까?</h2></header>
+    <div class="gallery full" style="grid-template-columns:1fr" data-photos='[["tb-renew","신·재생 에너지의 입지 (교과서 152쪽 그림)","수력 = 경기·강원·충북 중상류 / 풍력 = 제주·강원 / 조력 = 시화호 / 태양광 = 호남"]]'></div>
+    <div class="order">
+      <h3>신·재생 에너지 생산량 <span class="ws">74쪽 '국내 생산량' · '시·도별 생산량'</span></h3>
+      <div class="chart-grid">
+        <div class="gallery full" data-photos='[["gn-renew-sido","시·도별 신·재생 에너지 생산량 (2023)","태양광 > 풍력 ≒ 수력 > 해양 · 넓은 땅이 있는 도가 높다"]]'></div>
+        <div class="gallery full" data-photos='[["gn-renew-trend","신·재생 에너지 발전량 추이","태양광만 가파르게 늘었다"]]'></div>
+      </div>
+    </div>
+    <div class="why" style="margin-top:12px">
+      <article>
+        <span class="ws">74쪽 태양광</span>
+        <h4>태양광 · 전남 · 전북</h4>
+        <div class="gallery" data-photos='[["tb-solar-roof","옥상 태양광 (서울 성대골 마을)",""]]'></div>
+        <p>햇빛이 강하고 넓은 땅이 있는 호남. 전남 신안은 수익을 주민과 나누는 '햇빛연금'을 준다(<a href="https://m.go.seoul.co.kr/news/2025/01/24/20250124500161" target="_blank" rel="noopener">서울신문</a>).</p>
+        <p class="q">땅이 좁은 서울은 어디에 패널을 설치할까?</p>
+      </article>
+      <article>
+        <span class="ws">74쪽 수력 · 73쪽 1)(2)④</span>
+        <h4>수력 · 한강 유역 (강원 · 충북 · 경기)</h4>
+        <div class="gallery two" data-photos='[["soyang","소양강댐 (강원 춘천)",""],["tb-chungju","충주댐 (충북)",""]]'></div>
+        <p>물이 많고(넓은 유역) 낙차가 큰(산지) 곳. 장마·태풍으로 물이 많은 여름에 발전량이 많다.</p>
+      </article>
+      <article>
+        <span class="ws">74쪽 풍력</span>
+        <h4>풍력 · 강원 산지 · 제주</h4>
+        <div class="gallery" data-photos='[["gwinemi","태백 귀네미 마을 (강원)","해발 1,000m 안팎 능선"]]'></div>
+        <p>바람을 막는 것이 없는 높은 산 능선과 해안. 북서 계절풍이 센 겨울에 발전량이 많다.</p>
+      </article>
+      <article>
+        <span class="ws">74쪽 해양(조력)</span>
+        <h4>조력 · 경기 안산 시화호</h4>
+        <div class="gallery two" data-photos='[["sihwatidal","시화호 조력 발전소",""],["sihwawall","시화호 방조제",""]]'></div>
+        <p>조차가 큰 서해안 + 이미 있던 방조제. 2011년 가동, 세계 최대(254MW).</p>
+        <p class="q">충남 가로림만 조력 발전은 왜 무산됐을까? (힌트: 갯벌)</p>
+      </article>
+    </div>
+    <div class="order" id="s74-hydro">
+      <h3>수력 · 양수 발전은 통계마다 다르게 센다 <span class="ws">74쪽 수력 '통계상 유의점' · '분포'</span></h3>
+      <figure class="gif" style="border:0;padding:0">
+        <img src="pumped-storage.gif" alt="양수 발전의 원리 애니메이션: 밤에는 남는 전기로 물을 위 저수지로 퍼 올리고, 낮에는 물을 떨어뜨려 발전한다" loading="lazy">
+        <figcaption>밤에 남는 전기로 물을 퍼 올렸다가 낮에 떨어뜨려 다시 전기를 만든다. 자연의 물 흐름이 아니라 '전기 저장'에 가깝다.</figcaption>
+      </figure>
+      <div class="chart-grid">
+        <div class="gallery full" data-photos='[["u-supply-mix","① 1차 에너지 공급 구성비","수력이 신·재생과 따로 있다 = 양수식 포함"]]'></div>
+        <div class="gallery full" data-photos='[["u-renew-gen","② 신·재생 에너지 총발전량","* 수력은 양수식을 제외함"]]'></div>
+      </div>
+      <p class="ask"><b>질문</b>①에서는 수력이 신·재생과 따로, ②에서는 신·재생 안에 들어 있다. 두 통계에서 수력은 무엇이 다를까?</p>
+      <div class="gallery full" data-photos='[["gn-hydro","③ 1차 에너지 수력 vs 신·재생 에너지 수력 (시·도별)","파란색 = 일반 수력(신·재생 통계) / 흰색 = 양수식 수력"]]'></div>
+      <p class="ask"><b>질문</b>양수식을 넣으면 경북·경남(낙동강)이, 빼면 강원·충북·경기(한강)가 앞서는 까닭은? (힌트: 영남권의 원자력 발전소)</p>
+    </div>
+  </section>
+
+  <!-- ===================== 75쪽 ===================== -->
+  <section class="part" id="s75">
+    <header><span class="ref">학습지 75쪽 · 교과서 153쪽</span><h2><b>1. 3)</b>전력 생산 · 발전소는 어디에 있을까?</h2></header>
+    <div class="why">
+      <article>
+        <span class="ws">75쪽 화력 · 입지 조건</span>
+        <h4>화력 · 서해안</h4>
+        <div class="gallery" data-photos='[["dangjin","당진 화력 발전소 (충남)",""]]'></div>
+        <p>석탄을 배로 내리는 항구 + 냉각수 + 전기를 많이 쓰는 수도권과 가까움.</p>
+      </article>
+      <article>
+        <span class="ws">75쪽 원자력 · 입지 조건</span>
+        <h4>원자력 · 동해안 + 영광</h4>
+        <div class="gallery" data-photos='[["kori","고리 원자력 발전소 (부산)",""]]'></div>
+        <p>풍부한 냉각수(해안) + 안정된 지반 → 지형적 제약이 크다.</p>
+      </article>
+      <article>
+        <span class="ws">75쪽 수력 · 입지 조건</span>
+        <h4>수력 · 하천 중·상류</h4>
+        <div class="gallery" data-photos='[["soyang","소양강댐 (강원 춘천)",""]]'></div>
+        <p>유량과 낙차가 필요해 기후·지형적 제약이 가장 크다.</p>
+      </article>
+    </div>
+    <div class="stats" style="margin-top:12px">
+      <div class="stat"><span class="ws">75쪽 (2)① 국내 발전량</span><span class="num">184.9<small> vs </small>180.5</span><span class="lbl">2023년 발전량 석탄 vs 원자력 (TWh)</span><span class="src">한국에너지공단 · 해마다 순위가 바뀐다</span></div>
+      <div class="stat"><span class="ws">75쪽 (2)① 국내 발전량</span><span class="num">188.8<small>TWh</small></span><span class="lbl">2024년 원자력 · 처음 1위</span><span class="src">산업통상자원부 · 전체의 31.7%</span></div>
+    </div>
+    <div class="order">
+      <h3>발전량 · 발전 단가 <span class="ws">75쪽 (1) 전력 발전 양식 · (2)① 국내 발전량 · ② 발전 단가</span></h3>
+      <div class="chart-grid">
+        <div class="gallery full" data-photos='[["gn-gen","에너지원별 발전량과 발전 설비 용량","원자력 · 석탄 · LNG가 비슷해 해마다 순위가 바뀐다"]]'></div>
+        <div class="gallery full" data-photos='[["tb-cost","에너지원별 발전 단가 (2021)","석유 > 수력 > 천연가스 > 신·재생 > 석탄 > 원자력"]]'></div>
+      </div>
+    </div>
+    <div class="block" style="margin-top:12px">
+      <h3>지도로 보기 원자력 · 석탄 화력 · 수력 발전소 <span class="ws">75쪽 '주요 발전 양식의 분포'</span></h3>
+      <div id="map-plants"></div>
+    </div>
+    <h3 class="sub-h"><span class="badge">세계</span>같은 유럽, 정반대의 선택 <span class="ws">75쪽 원자력 장·단점</span></h3>
+    <div class="why">
+      <article>
+        <div class="gallery" data-photos='[["tb-france","프랑스 · 전기의 약 3분의 2가 원자력",""]]'></div>
+        <p>석유 파동 뒤 원전을 크게 늘려 남는 전기를 이웃 나라에 판다.</p>
+      </article>
+      <article>
+        <div class="gallery" data-photos='[["tb-germany","독일 · 철거되는 원전",""]]'></div>
+        <p>2023년 4월 15일 마지막 원전 3기를 끄고 탈원전을 마쳤다(<a href="https://www.world-nuclear-news.org/Articles/A-guide-The-end-of-Germany%E2%80%99s-nuclear-power" target="_blank" rel="noopener">WNN</a>).</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 76쪽 ===================== -->
+  <section class="part" id="s76">
+    <header><span class="ref">학습지 76쪽 · 교과서 154~156쪽</span><h2><b>2.</b>우리나라의 에너지 관련 쟁점</h2></header>
+    <div class="why">
+      <article>
+        <span class="ws">76쪽 심화 '전력 생산 &gt; 소비' 충남</span>
+        <h4>충남 · 발전량 1위</h4>
+        <div class="gallery" data-photos='[["tb-boryeong","보령 화력 발전소",""]]'></div>
+        <p>석탄 화력의 약 절반이 충남 서해안에 있다. 그 대가로 온실가스·미세 먼지 배출도 많다.</p>
+      </article>
+      <article>
+        <span class="ws">76쪽 심화 '전력 생산 &lt; 소비' 경기</span>
+        <h4>경기 · 소비량 1위</h4>
+        <div class="gallery" data-photos='[["tb-nowon","서울 노원의 아파트 · 인구가 몰린 수도권",""]]'></div>
+        <p>인구의 약 4분의 1이 살고 반도체 공장·데이터 센터가 몰려 있다. 모자란 전기는 충남·강원 등에서 끌어온다.</p>
+        <p class="q">부산·인천은 대도시인데 왜 생산이 더 많을까? (힌트: 고리 원전, 영흥 화력)</p>
+      </article>
+      <article>
+        <span class="ws">76쪽 2)(2) 환경 불평등 · 송전탑</span>
+        <h4>밀양 765kV 송전탑 갈등</h4>
+        <div class="gallery" data-photos='[["tb-pylon","고압 송전탑",""]]'></div>
+        <p>고리 원전 전기를 보내는 송전선로에 주민들이 오래 반대했다(2008~2014). 밀양에만 철탑 69기.</p>
+        <p class="q">전기는 수도권이 쓰는데 송전탑은 왜 지방에 설까?</p>
+      </article>
+      <article>
+        <span class="ws">76쪽 1)(3)① 해외 자원 개발</span>
+        <h4>국산 가스를 찾아서</h4>
+        <div class="gallery" data-photos='[["tb-offshore","해저 자원 시추 시설",""]]'></div>
+        <p>동해 가스전은 2021년 생산을 마쳤고, 포항 앞바다 '대왕고래'는 2025년 2월 1차 시추에서 경제성이 없었다(<a href="https://www.newsis.com/view/NISX20250206_0003055795" target="_blank" rel="noopener">뉴시스</a>).</p>
+      </article>
+    </div>
+    <div class="order">
+      <h3>시·도별 발전량과 판매량 <span class="ws">76쪽 심화 '전력 생산 &gt; 소비' · '전력 생산 &lt; 소비'</span></h3>
+      <div class="gallery full" data-photos='[["gn-gen-sido","시·도별 전력 생산량(파랑)과 판매량(흰색)","생산 1위 충남 · 소비 1위 경기"]]'></div>
+    </div>
+    <div class="block" style="margin-top:12px">
+      <h3>지도로 보기 석탄 · 송전 · 가스전 쟁점</h3>
+      <div id="map-issue"></div>
+    </div>
+  </section>
+
+  <!-- ===================== 77쪽 ===================== -->
+  <section class="part" id="s77">
+    <header><span class="ref">학습지 77쪽 · 교과서 157~160쪽</span><h2><b>3.</b>탄소중립을 어떻게 달성할 수 있을까?</h2></header>
+    <h3 class="sub-h"><span class="badge">개념</span>탄소의 세 가지 색깔 <span class="ws">77쪽 1)(1) 종류</span></h3>
+    <div class="gallery" data-photos='[["tb-black","블랙 카본","화석 연료를 태울 때 나오는 탄소"],["tb-green","그린 카본","숲이 흡수하는 탄소"],["tb-blue","블루 카본","갯벌·바다가 흡수하는 탄소"]]'></div>
+    <div class="stats" style="margin-top:12px">
+      <div class="stat"><span class="ws">77쪽 3)(1) 2030 목표</span><span class="num">40<small>%</small></span><span class="lbl">2030년 감축 목표 (2018년 대비)</span><span class="src">학습지 77쪽</span></div>
+      <div class="stat"><span class="ws">77쪽 3) 국가의 노력</span><span class="num">53~61<small>%</small></span><span class="lbl">2035년 감축 목표 · 2025년 11월 확정</span><span class="src"><a href="https://www.newsis.com/view/NISX20251110_0003397350" target="_blank" rel="noopener">뉴시스 2025.11.10</a></span></div>
+      <div class="stat"><span class="ws">77쪽 5) 다양한 노력</span><span class="num">95.9<small>%</small></span><span class="lbl">노르웨이 새 차 중 전기차 (2025)</span><span class="src"><a href="https://www.electrive.com/2026/01/03/battery-electric-cars-dominate-norway-and-its-fleets" target="_blank" rel="noopener">노르웨이 도로연맹(OFV)</a></span></div>
+    </div>
+    <div class="why" style="margin-top:12px">
+      <article>
+        <span class="ws">77쪽 5)(1) 지방 자치 단체</span>
+        <h4>노원 에너지 제로 주택</h4>
+        <div class="gallery" data-photos='[["tb-nowon","노원 에너지 제로 주택 (서울)",""]]'></div>
+        <p>단열을 높이고 태양광을 붙여 쓰는 에너지를 스스로 만든다.</p>
+      </article>
+      <article>
+        <span class="ws">77쪽 2)(2) 분야별 배출</span>
+        <h4>철강 · 산업 공정</h4>
+        <div class="gallery" data-photos='[["tb-steel","제철소 굴뚝",""]]'></div>
+        <p>2035 목표: 전력 68.8%, 수송 60.2%, 산업 24.3% 감축.</p>
+        <p class="q">산업의 감축 목표가 가장 낮은 까닭은?</p>
+      </article>
+      <article>
+        <span class="ws">77쪽 5)(1) 지방 자치 단체</span>
+        <h4>코펜힐 (덴마크 코펜하겐)</h4>
+        <p>쓰레기를 태워 전기·난방을 만드는 발전소 지붕에 사계절 스키장을 만들었다(<a href="https://stateofgreen.com/en/solutions/copenhill/" target="_blank" rel="noopener">State of Green</a>).</p>
+        <p class="q">우리 동네 기피 시설이라면 무엇을 얹을 수 있을까?</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 78쪽 ===================== -->
+  <section class="part" id="s78">
+    <header><span class="ref">학습지 78쪽 · 교과서 157쪽</span><h2><b>심화</b>국가 간 기후변화 협상과 환경 협약</h2></header>
+    <div class="why">
+      <article>
+        <span class="ws">78쪽 글래스고 기후 합의 (COP26)</span>
+        <h4>바닷물 속 연설 · 투발루</h4>
+        <p>2021년 투발루 외교 장관이 무릎까지 바닷물에 잠긴 채 COP26 연설을 녹화했다. "우리는 가라앉고 있다."(<a href="https://www.cnbc.com/2021/11/08/tuvalu-minister-gives-cop26-speech-knee-deep-in-the-ocean-to-highlight-rising-sea-levels.html" target="_blank" rel="noopener">CNBC</a>)</p>
+      </article>
+      <article>
+        <span class="ws">78쪽 교토 의정서 vs 파리 협정</span>
+        <h4>미국, 파리 협정 두 번째 탈퇴</h4>
+        <p>2026년 1월 27일 효력. 스스로 목표를 내는 협정이라 강제로 붙잡을 수 없다(<a href="https://www.eenews.net/articles/so-long-paris-us-officially-leaves-landmark-climate-pact/" target="_blank" rel="noopener">E&amp;E News</a>).</p>
+      </article>
+      <article>
+        <span class="ws">78쪽 몬트리올 의정서</span>
+        <h4>오존층이 돌아오고 있다</h4>
+        <p>남극 상공 2066년 무렵 1980년 수준 회복 전망(<a href="https://wmo.int/news/media-centre/ozone-layer-recovery-track-helping-avoid-global-warming-05degc" target="_blank" rel="noopener">WMO</a>).</p>
+        <p class="q">오존층 협약은 성공했는데 기후 협약은 왜 어려울까?</p>
+      </article>
+      <article>
+        <span class="ws">78쪽 람사르 협약</span>
+        <h4>창녕 우포늪</h4>
+        <div class="gallery" data-photos='[["upo","우포늪 (경남 창녕) · 람사르 습지",""]]'></div>
+      </article>
+    </div>
+  </section>
+
+  <p class="foot-note">사진은 위키미디어 공용의 자유 이용 사진과 비상교육 한국지리 탐구 교과서(수업용 인용)에서 가져왔고, 사진마다 출처를 적었습니다. 지도 기호의 위치는 대략적입니다.</p>
+</div>
+
+<script src="photos/photos.js"></script>
+<script src="../common/korea-sido.js"></script>
+<script src="../common/kmap.js"></script>
+<script src="../common/resource.js"></script>
+<script src="maps.js"></script>
+<script>
+/* 교과서 사진은 링크 없이 출처만 표시 */
+/* 사진 옆 위치 지도 */
+(function () {
+  var G = window.KOREA_SIDO; if (!G) return;
+  var LOC = { kori: [35.32, 129.29, "부산"], dangjin: [37.05, 126.51, "당진"], gwinemi: [37.235, 128.96, "태백"], sihwatidal: [37.31, 126.61, "안산"], sihwawall: [37.32, 126.66, "안산"],
+    soyang: [37.945, 127.815, "춘천"], upo: [35.55, 128.42, "창녕"], "tb-boryeong": [36.40, 126.49, "보령"], "tb-chungju": [37.004, 127.99, "충주"], "tb-nowon": [37.65, 127.06, "노원"], "tb-solar-roof": [37.49, 126.95, "동작"] };
+  var base = G.regions.map(function (r) { return '<path d="' + r.d + '"/>'; }).join("");
+  function proj(lat, lon) { var p = G.proj; return [(lon - p.minx) * p.k * p.s, (p.maxy - lat) * p.s]; }
+  document.querySelectorAll(".ph[data-key]").forEach(function (f) {
+    var l = LOC[f.dataset.key]; if (!l) return;
+    var xy = proj(l[0], l[1]), cap = f.querySelector("figcaption");
+    var left = xy[0] > 470, tx = left ? xy[0] - 30 : xy[0] + 30;
+    cap.insertAdjacentHTML("beforeend", '<svg class="loc" viewBox="0 0 720 946" role="img" aria-label="위치: ' + l[2] + '">' + base +
+      '<circle cx="' + xy[0].toFixed(0) + '" cy="' + xy[1].toFixed(0) + '" r="44"/><text x="' + tx.toFixed(0) + '" y="' + (xy[1] + 20).toFixed(0) + '" text-anchor="' + (left ? "end" : "start") + '">' + l[2] + "</text></svg>");
+    f.classList.add("has-loc");
+  });
+})();
+document.querySelectorAll('.credit a').forEach(function (a) { if (!a.getAttribute("href")) a.replaceWith(document.createTextNode(a.textContent)); });
+</script>
+</body>
+</html>
