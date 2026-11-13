@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한국지리 탐구 수업실</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: 홈 = 대단원별 띠(왼쪽 번호·제목, 오른쪽 중단원 카드 격자) / 수업 화면 = 상단 바 + 좌우 반반 패널 */
+:root {
+  --bg: #eef1ef;          /* 지도 바탕 회녹색 */
+  --surface: #f9faf9;
+  --ink: #18282f;         /* 지형도 먹색 */
+  --muted: #5a6b70;
+  --line: #cfd8d6;
+  --accent: #1f6f78;      /* 해양 청록 */
+  --accent-soft: #d6e8e8;
+  --contour: #b9a27a;     /* 등고선 갈색 */
+  --ok: #2f7a4b;
+  --font-display: "Gowun Batang", "Nanum Myeongjo", serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --split: 50%;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11191c; --surface: #182327; --ink: #e3ebea; --muted: #93a5a8;
+    --line: #2b3a3f; --accent: #6cc0c6; --accent-soft: #1d3a3e; --contour: #8a7a5c; --ok: #6fc28f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11191c; --surface: #182327; --ink: #e3ebea; --muted: #93a5a8;
+  --line: #2b3a3f; --accent: #6cc0c6; --accent-soft: #1d3a3e; --contour: #8a7a5c; --ok: #6fc28f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased; word-break: keep-all;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+/* ---------- 홈 ---------- */
+#home { min-height: 100%; }
+.home-wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-block: 48px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.masthead {
+  position: relative; display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between;
+  gap: 16px 32px; padding-bottom: 28px; margin-bottom: 8px; border-bottom: 1.5px solid var(--ink);
+}
+.masthead canvas { position: absolute; inset: -48px -40px 0 auto; width: 420px; height: calc(100% + 48px); pointer-events: none; opacity: .55; max-width: 60%; }
+.masthead .eyebrow { font-size: 12px; letter-spacing: .14em; color: var(--muted); font-weight: 600; }
+.masthead h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(34px, 6vw, 56px); line-height: 1.1; letter-spacing: -.01em; position: relative; }
+.masthead p { margin: 8px 0 0; color: var(--muted); max-width: 46ch; position: relative; }
+.legend { display: flex; gap: 14px; font-size: 13px; color: var(--muted); position: relative; flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.unit {
+  display: grid; grid-template-columns: 240px 1fr; gap: 24px;
+  padding-block: 28px; border-bottom: 1px solid var(--line);
+}
+.unit-head { display: flex; flex-direction: column; gap: 4px; }
+.unit-num { font-family: var(--font-display); font-size: 40px; line-height: 1; color: var(--accent); }
+.unit-head h2 { font-family: var(--font-display); font-size: 21px; font-weight: 700; line-height: 1.35; }
+.code { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: .02em; }
+.lessons { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; align-content: start; }
+.lesson {
+  display: flex; flex-direction: column; gap: 14px; justify-content: space-between;
+  text-align: left; text-decoration: none; color: inherit;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  padding: 16px 16px 14px; min-height: 120px; cursor: pointer;
+  transition: border-color .15s, transform .15s;
+}
+.lesson:hover { border-color: var(--accent); transform: translateY(-2px); }
+.lesson .lnum { font-family: var(--font-body); font-weight: 600; font-size: 13px; color: var(--accent); }
+.lesson h3 { font-size: 16px; font-weight: 600; line-height: 1.4; margin-top: 2px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { font-size: 12px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line); color: var(--muted); }
+.chip.on { border-color: transparent; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.foot { margin-top: 28px; font-size: 13px; color: var(--muted); }
+.foot code { font-family: var(--font-mono); background: var(--surface); border: 1px solid var(--line); padding: 0 5px; border-radius: 4px; }
+
+/* ---------- 수업 화면 ---------- */
+#room { height: 100%; display: flex; flex-direction: column; }
+.bar {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding-block: 8px;
+  padding-left: max(12px, env(safe-area-inset-left, 0px));
+  padding-right: max(12px, env(safe-area-inset-right, 0px));
+  background: var(--surface); border-bottom: 1px solid var(--line);
+}
+.bar .title { display: flex; align-items: baseline; gap: 10px; min-width: 0; flex: 1 1 260px; }
+.bar .title .lnum { font-family: var(--font-body); font-weight: 600; font-size: 14px; color: var(--accent); white-space: nowrap; }
+.bar .title h1 { font-family: var(--font-display); font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .title .unit-name { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px;
+  border: 1px solid var(--line); background: var(--bg); border-radius: 6px; cursor: pointer; font-size: 14px; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); }
+.btn[disabled] { opacity: .4; cursor: default; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; background: var(--bg); height: 32px; padding: 0 11px; cursor: pointer; font-size: 13px; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); font-weight: 600; }
+.group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+.stage { flex: 1; min-height: 0; display: flex; position: relative; }
+.pane { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--surface); }
+.pane.left { flex: 0 0 var(--split); }
+.pane.right { flex: 1 1 0; }
+.stage.swap { flex-direction: row-reverse; }
+.stage[data-layout="ws"] .pane.right, .stage[data-layout="ws"] .divider { display: none; }
+.stage[data-layout="sl"] .pane.left, .stage[data-layout="sl"] .divider { display: none; }
+.stage[data-layout="ws"] .pane.left { flex: 1 1 auto; }
+.divider { flex: 0 0 8px; cursor: col-resize; background: var(--line); position: relative; touch-action: none; }
+.divider::after { content: ""; position: absolute; left: 3px; top: 50%; width: 2px; height: 36px; margin-top: -18px; border-radius: 2px; background: var(--muted); opacity: .5; }
+.stage.dragging iframe { pointer-events: none; }
+.stage.dragging { user-select: none; }
+
+.pane-head { display: flex; align-items: center; gap: 8px; padding: 6px 8px 6px 12px; border-bottom: 1px solid var(--line); min-height: 42px; }
+.pane-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--muted); white-space: nowrap; }
+.tabs { display: flex; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; }
+.tab { border: 1px solid transparent; background: none; border-radius: 5px; padding: 3px 10px; cursor: pointer; font-size: 13px; white-space: nowrap; color: var(--muted); }
+.tab[aria-selected="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.tab.temp { border-style: dashed; border-color: var(--contour); }
+.icon-btn { border: 0; background: none; width: 30px; height: 30px; border-radius: 5px; cursor: pointer; display: inline-grid; place-items: center; color: var(--muted); text-decoration: none; }
+.icon-btn:hover { background: var(--bg); color: var(--ink); }
+.icon-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pane-body { flex: 1; min-height: 0; position: relative; background: var(--bg); }
+.pane-body iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+.pane-body .img-wrap { position: absolute; inset: 0; overflow: auto; display: grid; place-items: start center; padding: 12px; }
+.pane-body img { max-width: 100%; height: auto; display: block; }
+.empty { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; color: var(--muted); }
+.empty div { max-width: 34ch; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.empty strong { font-family: var(--font-display); font-size: 19px; color: var(--ink); }
+.empty code { font-family: var(--font-mono); font-size: 12px; background: var(--surface); border: 1px solid var(--line); padding: 1px 6px; border-radius: 4px; }
+.drop-hint { position: absolute; inset: 8px; border: 2px dashed var(--accent); border-radius: 8px; background: color-mix(in srgb, var(--accent-soft) 85%, transparent); display: none; place-items: center; font-weight: 600; color: var(--accent); z-index: 5; pointer-events: none; }
+.pane.drag-over .drop-hint { display: grid; }
+.ext-note { position: absolute; left: 8px; right: 8px; bottom: 8px; z-index: 4; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 8px 6px 12px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,.15); font-size: 13px; color: var(--muted); }
+.ext-note span { flex: 1 1 200px; }
+.ext-note a { color: var(--accent); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.ext-note button { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 6px; }
+.pane:fullscreen { background: var(--surface); }
+
+
+/* ---------- 떼어 낸 사진 (모서리를 끌어 크기 조절) ---------- */
+.float { position: fixed; z-index: 30; padding: 0; background: var(--surface); border-radius: 4px; box-shadow: 0 10px 30px rgba(0, 0, 0, .3); cursor: move; touch-action: none; user-select: none; }
+.float img { display: block; width: 100%; height: auto; border-radius: 4px; pointer-events: none; -webkit-user-drag: none; }
+.fl-cap { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 6px; padding: 4px 4px 4px 10px; background: linear-gradient(rgba(0, 0, 0, .65), rgba(0, 0, 0, 0)); color: #fff; font-size: 13px; font-weight: 600; border-radius: 4px 4px 0 0; opacity: 0; transition: opacity .15s; }
+.fl-cap b { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 2px rgba(0, 0, 0, .6); }
+.fl-x { border: 0; background: rgba(0, 0, 0, .55); color: #fff; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 17px; line-height: 1; }
+.fl-x:hover { background: rgba(0, 0, 0, .8); }
+.fl-credit { position: absolute; left: 0; right: 0; bottom: 0; padding: 3px 8px; font-size: 10.5px; color: #fff; background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .6)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-radius: 0 0 4px 4px; opacity: 0; transition: opacity .15s; }
+.fl-credit a { color: inherit; }
+.float:hover .fl-cap, .float:hover .fl-credit, .float.active .fl-cap, .float.active .fl-credit { opacity: 1; }
+.fl-h { position: absolute; width: 18px; height: 18px; background: #fff; border: 2px solid var(--accent); border-radius: 3px; touch-action: none; z-index: 2; }
+.fl-h.nw { left: -9px; top: -9px; cursor: nwse-resize; } .fl-h.se { right: -9px; bottom: -9px; cursor: nwse-resize; }
+.fl-h.ne { right: -9px; top: -9px; cursor: nesw-resize; } .fl-h.sw { left: -9px; bottom: -9px; cursor: nesw-resize; }
+body.fl-moving iframe { pointer-events: none; }
+body.fl-moving { user-select: none; }
+@media (max-width: 760px) {
+  .unit { grid-template-columns: 1fr; gap: 14px; }
+  .unit-head { flex-direction: row; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .unit-num { font-size: 30px; }
+  .stage, .stage.swap { flex-direction: column; }
+  .stage.swap { flex-direction: column-reverse; }
+  .pane.left { flex: 0 0 var(--split); }
+  .divider { flex-basis: 8px; cursor: row-resize; }
+  .divider::after { left: 50%; top: 3px; width: 36px; height: 2px; margin: 0 0 0 -18px; }
+  .bar .title h1 { font-size: 17px; }
+  .hide-sm { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .lesson { transition: none; } .lesson:hover { transform: none; } }
+</style>
+</head>
+<body>
+
+<main id="home">
+  <div class="home-wrap">
+    <header class="masthead">
+      <canvas id="contour" aria-hidden="true"></canvas>
+      <div>
+        <div class="eyebrow" id="eyebrow">2022 개정 교육과정 · 진로 선택</div>
+        <h1 id="course-title">한국지리 탐구</h1>
+        <p>들어갈 중단원을 고르세요. 왼쪽에는 학습지, 오른쪽에는 수업자료가 나란히 열립니다.</p>
+      </div>
+      <div class="legend">
+        <span><span class="chip on">학습지</span> 자료 있음</span>
+        <span><span class="chip">자료</span> 아직 없음</span>
+      </div>
+    </header>
+    <div id="units"></div>
+    <p class="foot">자료는 사이트 폴더의 <code>data.js</code>에서 추가합니다. 수업 중에는 파일을 학습지·수업자료 칸에 끌어다 놓아 바로 띄울 수도 있습니다.</p>
+  </div>
+</main>
+
+<section id="room" hidden>
+  <div class="bar">
+    <button class="btn" id="btn-home" title="중단원 목록 (Esc)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>목록
+    </button>
+    <div class="title">
+      <span class="lnum" id="r-num"></span>
+      <h1 id="r-title"></h1>
+      <span class="unit-name hide-sm" id="r-unit"></span>
+    </div>
+    <div class="group">
+      <div class="seg" role="group" aria-label="화면 배치">
+        <button id="lay-both" data-lay="both" aria-pressed="true" title="반반 (1)">반반</button>
+        <button id="lay-ws" data-lay="ws" aria-pressed="false" title="학습지만 (2)">학습지만</button>
+        <button id="lay-sl" data-lay="sl" aria-pressed="false" title="수업자료만 (3)">자료만</button>
+      </div>
+      <button class="btn hide-sm" id="btn-swap" title="좌우 바꾸기">좌우 바꾸기</button>
+      <button class="btn" id="btn-prev" title="이전 중단원">‹ 이전</button>
+      <button class="btn" id="btn-next" title="다음 중단원">다음 ›</button>
+    </div>
+  </div>
+  <div class="stage" id="stage" data-layout="both">
+    <div class="pane left" data-kind="worksheet"></div>
+    <div class="divider" id="divider" role="separator" aria-label="칸 너비 조절" tabindex="0"></div>
+    <div class="pane right" data-kind="slides"></div>
+  </div>
+</section>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var C = window.COURSE;
+  if (!C) { document.body.innerHTML = '<p style="padding:24px">data.js를 불러오지 못했습니다. index.html과 같은 폴더에 data.js가 있는지 확인하세요.</p>'; return; }
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem("hanji:" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem("hanji:" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+
+  // 중단원 평탄화
+  var flat = [];
+  C.units.forEach(function (u) { u.lessons.forEach(function (l) { flat.push({ unit: u, lesson: l }); }); });
+  var hashOf = function (l) { return "u" + l.id.replace(/[^0-9a-z-]/gi, "-"); };
+  var findByHash = function (h) { for (var i = 0; i < flat.length; i++) if (hashOf(flat[i].lesson) === h) return i; return -1; };
+
+  // ---------- 홈 ----------
+  $("#course-title").textContent = C.title || "한국지리 탐구";
+  if (C.school) $("#eyebrow").textContent = C.school + " · " + $("#eyebrow").textContent;
+  document.title = (C.title || "한국지리 탐구") + " 수업실";
+
+  $("#units").innerHTML = C.units.map(function (u) {
+    return '<section class="unit"><div class="unit-head"><span class="unit-num">' + esc(u.roman) + '</span><h2>' + esc(u.title) + '</h2><span class="code">' + esc(u.code || "") + '</span></div><div class="lessons">' +
+      u.lessons.map(function (l) {
+        var w = (l.worksheet || []).length, s = (l.slides || []).length;
+        return '<a class="lesson" href="#' + hashOf(l) + '"><div><span class="lnum">' + esc(u.roman) + "-" + esc(l.id.split("-")[1] || l.id) + '</span><h3>' + esc(l.title) + '</h3></div>' +
+          '<div class="chips"><span class="chip' + (w ? " on" : "") + '">학습지' + (w > 1 ? " " + w : "") + '</span><span class="chip' + (s ? " on" : "") + '">수업자료' + (s > 1 ? " " + s : "") + '</span></div></a>';
+      }).join("") + '</div></section>';
+  }).join("");
+
+  // 등고선 장식
+  (function drawContour() {
+    var cv = $("#contour"); if (!cv.getContext) return;
+    var r = cv.getBoundingClientRect(), dpr = window.devicePixelRatio || 1;
+    if (!r.width) return;
+    cv.width = r.width * dpr; cv.height = r.height * dpr;
+    var g = cv.getContext("2d"); g.scale(dpr, dpr);
+    g.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--contour").trim() || "#b9a27a";
+    var cx = r.width * 0.62, cy = r.height * 0.55;
+    for (var k = 1; k <= 11; k++) {
+      g.beginPath(); g.lineWidth = k % 5 === 0 ? 1.4 : 0.7;
+      for (var a = 0; a <= Math.PI * 2 + 0.01; a += 0.05) {
+        var rad = k * 15 * (1 + 0.18 * Math.sin(3 * a + k * 0.4) + 0.1 * Math.cos(5 * a - k * 0.25));
+        var x = cx + rad * Math.cos(a) * 1.35, y = cy + rad * Math.sin(a) * 0.8;
+        a === 0 ? g.moveTo(x, y) : g.lineTo(x, y);
+      }
+      g.stroke();
+    }
+  })();
+
+  // ---------- 수업 화면 ----------
+  var ICON = {
+    full: '<svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
+    out: '<svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>',
+    file: '<svg viewBox="0 0 24 24"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>'
+  };
+  var LABEL = { worksheet: "학습지", slides: "수업자료" };
+  var temp = { worksheet: [], slides: [] };   // 끌어다 놓은 파일 (이번 화면에서만)
+  var current = -1;
+
+  function embedUrl(src) {
+    var m;
+    if ((m = src.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{6,})/))) return "https://www.youtube.com/embed/" + m[1];
+    if ((m = src.match(/docs\.google\.com\/presentation\/d\/([\w-]+)/)) && !/\/(embed|pub)/.test(src)) return "https://docs.google.com/presentation/d/" + m[1] + "/embed?start=false&loop=false";
+    if ((m = src.match(/docs\.google\.com\/(document|spreadsheets)\/d\/([\w-]+)/)) && !/\/(preview|pub)/.test(src)) return "https://docs.google.com/" + m[1] + "/d/" + m[2] + "/preview";
+    if ((m = src.match(/docs\.google\.com\/forms\/d\/(e\/)?([\w-]+)/)) && !/embedded=true/.test(src)) return "https://docs.google.com/forms/d/" + (m[1] || "") + m[2] + "/viewform?embedded=true";
+    if ((m = src.match(/drive\.google\.com\/file\/d\/([\w-]+)/))) return "https://drive.google.com/file/d/" + m[1] + "/preview";
+    if (/canva\.com\/design\//.test(src) && !/[?&]embed/.test(src)) return src.split("?")[0].replace(/\/(edit|view)\/?$/, "/view") + "?embed";
+    return src;
+  }
+  var isImage = function (src, type) { return (type && type.indexOf("image/") === 0) || /\.(png|jpe?g|gif|webp|svg|bmp)(\?|#|$)/i.test(src); };
+
+  function renderPane(pane) {
+    var kind = pane.dataset.kind, l = flat[current].lesson;
+    var items = (l[kind] || []).filter(function (x) { return x && x.src; }).concat(temp[kind]);
+    var sel = Math.min(+(pane.dataset.sel || 0), Math.max(items.length - 1, 0));
+    pane.dataset.sel = sel;
+    var it = items[sel];
+    var tabs = items.length > 1 || (it && it.temp) ? items.map(function (x, i) {
+      return '<button class="tab' + (x.temp ? " temp" : "") + '" role="tab" aria-selected="' + (i === sel) + '" data-i="' + i + '" title="' + (x.temp ? "끌어다 놓은 파일 (새로고침하면 사라짐)" : esc(x.src)) + '">' + esc(x.title || LABEL[kind] + " " + (i + 1)) + "</button>";
+    }).join("") : "";
+    var body;
+    if (!it) {
+      body = '<div class="empty"><div><strong>' + LABEL[kind] + '이 아직 없습니다</strong><span><code>data.js</code>의 <code>' + esc(l.id) + '</code> 중단원 <code>' + kind + '</code> 항목에 파일 경로나 링크를 넣으세요.</span><span>지금 바로 띄우려면 파일을 이 칸에 끌어다 놓으세요.</span></div></div>';
+    } else if (isImage(it.src, it.type)) {
+      body = '<div class="img-wrap"><img src="' + esc(it.src) + '" alt="' + esc(it.title || LABEL[kind]) + '"></div>';
+    } else {
+      body = '<iframe src="' + esc(it.temp ? it.src : embedUrl(it.src)) + '" title="' + esc(it.title || LABEL[kind]) + '" allow="fullscreen; autoplay" allowfullscreen></iframe>';
+      if (!it.temp && /^https?:\/\//i.test(it.src)) body += '<div class="ext-note"><span>외부 사이트입니다. 칸이 비어 있거나 \'연결 거부\'가 뜨면 새 창에서 여세요.</span><a href="' + esc(it.src) + '" target="_blank" rel="noopener">새 창에서 열기 ↗</a><button type="button" data-act="hide-note" title="안내 닫기">×</button></div>';
+    }
+    pane.innerHTML =
+      '<div class="pane-head"><span class="pane-label">' + LABEL[kind] + '</span><div class="tabs" role="tablist">' + tabs + '</div>' +
+      '<label class="icon-btn" title="파일 띄우기 (이번 화면에서만)">' + ICON.file + '<input type="file" id="file-' + kind + '" accept=".pdf,image/*,.html,.htm" hidden></label>' +
+      (it && !it.temp ? '<a class="icon-btn" href="' + esc(it.src) + '" target="_blank" rel="noopener" title="새 창에서 열기">' + ICON.out + "</a>" : "") +
+      '<button class="icon-btn" data-act="full" title="이 칸 전체 화면">' + ICON.full + "</button></div>" +
+      '<div class="pane-body">' + body + '</div><div class="drop-hint">여기에 놓으면 ' + LABEL[kind] + ' 칸에 표시됩니다</div>';
+  }
+
+  function addTemp(pane, file) {
+    if (!file) return;
+    var kind = pane.dataset.kind;
+    temp[kind].push({ title: file.name.replace(/\.[^.]+$/, ""), src: URL.createObjectURL(file), type: file.type, temp: true });
+    var l = flat[current].lesson;
+    pane.dataset.sel = (l[kind] || []).filter(function (x) { return x && x.src; }).length + temp[kind].length - 1;
+    renderPane(pane);
+  }
+
+  document.querySelectorAll(".pane").forEach(function (pane) {
+    pane.addEventListener("click", function (e) {
+      var t = e.target.closest(".tab");
+      if (t) { pane.dataset.sel = t.dataset.i; renderPane(pane); return; }
+      if (e.target.closest('[data-act="hide-note"]')) { var n = e.target.closest(".ext-note"); if (n) n.remove(); return; }
+      if (e.target.closest('[data-act="full"]')) {
+        if (document.fullscreenElement) document.exitFullscreen().catch(function () {});
+        else if (pane.requestFullscreen) pane.requestFullscreen().catch(function () {});
+      }
+    });
+    pane.addEventListener("change", function (e) { if (e.target.type === "file") addTemp(pane, e.target.files[0]); });
+    pane.addEventListener("dragover", function (e) { if (e.dataTransfer && Array.prototype.indexOf.call(e.dataTransfer.types, "Files") > -1) { e.preventDefault(); pane.classList.add("drag-over"); } });
+    pane.addEventListener("dragleave", function (e) { if (!pane.contains(e.relatedTarget)) pane.classList.remove("drag-over"); });
+    pane.addEventListener("drop", function (e) { e.preventDefault(); pane.classList.remove("drag-over"); addTemp(pane, e.dataTransfer.files[0]); });
+  });
+
+  function openLesson(i) {
+    if (i !== current) {
+      document.querySelectorAll(".float").forEach(function (f) { f.remove(); });
+      temp.worksheet.forEach(function (x) { URL.revokeObjectURL(x.src); });
+      temp.slides.forEach(function (x) { URL.revokeObjectURL(x.src); });
+      temp = { worksheet: [], slides: [] };
+      document.querySelectorAll(".pane").forEach(function (p) { p.dataset.sel = 0; });
+    }
+    current = i;
+    var u = flat[i].unit, l = flat[i].lesson;
+    $("#r-num").textContent = u.roman + "-" + (l.id.split("-")[1] || l.id);
+    $("#r-title").textContent = l.title;
+    $("#r-unit").textContent = u.roman + ". " + u.title;
+    $("#btn-prev").disabled = i === 0;
+    $("#btn-next").disabled = i === flat.length - 1;
+    document.querySelectorAll(".pane").forEach(renderPane);
+    document.title = u.roman + "-" + (l.id.split("-")[1] || l.id) + " " + l.title + " · " + (C.title || "한국지리 탐구");
+    $("#home").hidden = true; $("#room").hidden = false;
+  }
+  function showHome() {
+    current = -1;
+    document.querySelectorAll(".float").forEach(function (f) { f.remove(); });
+    document.querySelectorAll(".pane").forEach(function (p) { p.innerHTML = ""; });
+    $("#room").hidden = true; $("#home").hidden = false;
+    document.title = (C.title || "한국지리 탐구") + " 수업실";
+  }
+  function route() {
+    var i = findByHash(location.hash.slice(1));
+    i > -1 ? openLesson(i) : showHome();
+  }
+  var go = function (i) { if (i >= 0 && i < flat.length) location.hash = hashOf(flat[i].lesson); };
+
+  $("#btn-home").onclick = function () { location.hash = ""; showHome(); };
+  $("#btn-prev").onclick = function () { go(current - 1); };
+  $("#btn-next").onclick = function () { go(current + 1); };
+
+  // 배치·좌우·너비 (이 브라우저에 기억)
+  var stage = $("#stage");
+  function setLayout(v) {
+    stage.dataset.layout = v; store.set("layout", v);
+    document.querySelectorAll("[data-lay]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.lay === v); });
+  }
+  document.querySelectorAll("[data-lay]").forEach(function (b) { b.onclick = function () { setLayout(b.dataset.lay); }; });
+  setLayout(store.get("layout", "both"));
+  if (store.get("swap", false)) stage.classList.add("swap");
+  $("#btn-swap").onclick = function () { store.set("swap", stage.classList.toggle("swap")); };
+
+  function setSplit(p) { p = Math.max(20, Math.min(80, p)); document.documentElement.style.setProperty("--split", p + "%"); return p; }
+  setSplit(store.get("split", 50));
+  var div = $("#divider");
+  div.addEventListener("pointerdown", function (e) {
+    e.preventDefault(); div.setPointerCapture(e.pointerId); stage.classList.add("dragging");
+    var vertical = getComputedStyle(stage).flexDirection.indexOf("column") === 0;
+    var swapped = stage.classList.contains("swap");
+    function move(ev) {
+      var r = stage.getBoundingClientRect();
+      var p = vertical ? (ev.clientY - r.top) / r.height * 100 : (ev.clientX - r.left) / r.width * 100;
+      store.set("split", setSplit(swapped ? 100 - p : p));
+    }
+    function up() { stage.classList.remove("dragging"); div.removeEventListener("pointermove", move); div.removeEventListener("pointerup", up); }
+    div.addEventListener("pointermove", move); div.addEventListener("pointerup", up);
+  });
+  div.addEventListener("dblclick", function () { store.set("split", setSplit(50)); });
+  div.addEventListener("keydown", function (e) {
+    var cur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--split")) || 50;
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") store.set("split", setSplit(cur - 5));
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") store.set("split", setSplit(cur + 5));
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (current < 0 || e.target.closest("input, textarea") || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === "1") setLayout("both");
+    else if (e.key === "2") setLayout("ws");
+    else if (e.key === "3") setLayout("sl");
+    else if (e.key === "Escape" && !document.fullscreenElement) { location.hash = ""; showHome(); }
+  });
+
+
+  // ---------- 수업자료의 사진을 떼어 내 화면 위에 띄우기 ----------
+  // 사진을 끌면 이동(학습지 칸 위로도), 네 모서리를 끌면 비율을 유지한 채 크기 조절, 휠로도 크기 조절, 두 번 누르면 처음 크기
+  var zTop = 30, floats = 0;
+  function openFloat(d) {
+    var pane = document.querySelector(".pane.right").getBoundingClientRect();
+    var ref = pane.width > 50 ? pane : stage.getBoundingClientRect();
+    var off = (floats++ % 5) * 26;
+    var f = document.createElement("div"); f.className = "float";
+    f.innerHTML = '<img alt=""><div class="fl-cap"><b></b><button class="fl-x" title="닫기">×</button></div><div class="fl-credit"></div>' +
+      '<span class="fl-h nw"></span><span class="fl-h ne"></span><span class="fl-h sw"></span><span class="fl-h se"></span>';
+    f.querySelector("b").textContent = d.cap || "사진";
+    f.querySelector(".fl-credit").innerHTML = d.credit || "";
+    var img = f.querySelector("img"); img.alt = d.cap || "";
+    f.style.zIndex = ++zTop; f.style.visibility = "hidden";
+    document.body.appendChild(f);
+    var ratio = 0.75, startW = 0;
+    function place(l, t, w) { f.style.left = l + "px"; f.style.top = t + "px"; f.style.width = w + "px"; }
+    img.onload = function () {
+      ratio = img.naturalHeight / img.naturalWidth;
+      startW = Math.min(ref.width * 0.85, (window.innerHeight - 140) / ratio, 640);
+      place(Math.max(8, ref.left + (ref.width - startW) / 2 + off), Math.max(60, ref.top + 40 + off), startW);
+      f.style.visibility = "";
+    };
+    img.src = d.src;
+    function resizeTo(w, anchorX, anchorY, ax, ay) {   // ax, ay: 고정할 꼭짓점(0 = 왼쪽/위, 1 = 오른쪽/아래)
+      w = Math.max(120, Math.min(window.innerWidth * 2, w));
+      var h = w * ratio;
+      place(anchorX - ax * w, anchorY - ay * h, w);
+    }
+    f.addEventListener("pointerdown", function () { f.style.zIndex = ++zTop; document.querySelectorAll(".float.active").forEach(function (x) { x.classList.remove("active"); }); f.classList.add("active"); }, true);
+    f.querySelector(".fl-x").onclick = function () { f.remove(); };
+    function drag(el, start, move) {
+      el.addEventListener("pointerdown", function (e) {
+        if (e.target.closest("button, a") || (el === f && e.target.classList.contains("fl-h"))) return;
+        e.preventDefault(); e.stopPropagation(); el.setPointerCapture(e.pointerId);
+        document.body.classList.add("fl-moving");
+        var sx = e.clientX, sy = e.clientY, s0 = start();
+        function mv(ev) { move(s0, ev.clientX - sx, ev.clientY - sy); }
+        function up() { document.body.classList.remove("fl-moving"); el.removeEventListener("pointermove", mv); el.removeEventListener("pointerup", up); el.removeEventListener("pointercancel", up); }
+        el.addEventListener("pointermove", mv); el.addEventListener("pointerup", up); el.addEventListener("pointercancel", up);
+      });
+    }
+    // 이동
+    drag(f, function () { return { l: f.offsetLeft, t: f.offsetTop }; }, function (s0, dx, dy) {
+      f.style.left = Math.min(window.innerWidth - 60, Math.max(-f.offsetWidth + 60, s0.l + dx)) + "px";
+      f.style.top = Math.min(window.innerHeight - 40, Math.max(0, s0.t + dy)) + "px";
+    });
+    // 네 모서리: 반대쪽 꼭짓점을 고정한 채 비율 유지
+    f.querySelectorAll(".fl-h").forEach(function (h) {
+      var east = h.classList.contains("ne") || h.classList.contains("se"), south = h.classList.contains("sw") || h.classList.contains("se");
+      drag(h, function () {
+        return { w: f.offsetWidth, ax: f.offsetLeft + (east ? 0 : f.offsetWidth), ay: f.offsetTop + (south ? 0 : f.offsetHeight) };
+      }, function (s0, dx, dy) {
+        var byX = (east ? dx : -dx), byY = (south ? dy : -dy) / ratio;
+        resizeTo(s0.w + (Math.abs(byX) > Math.abs(byY) ? byX : byY), s0.ax, s0.ay, east ? 0 : 1, south ? 0 : 1);
+      });
+    });
+    // 휠: 가운데를 기준으로 크기 조절
+    f.addEventListener("wheel", function (e) {
+      e.preventDefault();
+      var w = f.offsetWidth, cx = f.offsetLeft + w / 2, cy = f.offsetTop + f.offsetHeight / 2;
+      resizeTo(w * (e.deltaY < 0 ? 1.1 : 1 / 1.1), cx, cy, 0.5, 0.5);
+    }, { passive: false });
+    f.addEventListener("dblclick", function (e) {
+      if (e.target.closest("button")) return;
+      var cx = f.offsetLeft + f.offsetWidth / 2, cy = f.offsetTop + f.offsetHeight / 2;
+      resizeTo(startW, cx, cy, 0.5, 0.5);
+    });
+  }
+  window.addEventListener("message", function (e) {
+    var d = e.data;
+    if (!d || d.type !== "hanji-photo" || current < 0) return;
+    openFloat(d);
+    if (e.source) e.source.postMessage({ type: "hanji-photo-ok", id: d.id }, "*");
+  });
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>
+</body>
+</html>
