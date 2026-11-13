@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ⅰ-1 지리 탐구의 시작 수업자료</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+  html, body { height: 100%; margin: 0; }
+  body { background: #16262c; color: #eef3f2; font-family: "IBM Plex Sans KR", "Malgun Gothic", sans-serif; overflow: hidden; }
+  .slide { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; padding: 6vmin 8vmin 10vmin; gap: 3vmin; }
+  .slide.on { display: flex; }
+  .kicker { color: #8fd0d4; font-size: clamp(13px, 2.2vmin, 20px); letter-spacing: .1em; }
+  h1 { font-family: "Gowun Batang", serif; font-size: clamp(28px, 7vmin, 72px); margin: 0; line-height: 1.2; }
+  h2 { font-family: "Gowun Batang", serif; font-size: clamp(22px, 5vmin, 52px); margin: 0; }
+  p, li { font-size: clamp(15px, 3vmin, 30px); line-height: 1.55; margin: 0; }
+  ul { margin: 0; padding-left: 1.2em; display: grid; gap: 1.5vmin; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2vmin; }
+  .grid div { border: 1px solid #3b5359; border-radius: 8px; padding: 2.4vmin; }
+  .grid b { display: block; color: #8fd0d4; font-size: clamp(15px, 3vmin, 28px); }
+  .grid span { font-size: clamp(13px, 2.4vmin, 22px); color: #c6d3d2; }
+  nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; font-size: 14px; color: #9fb2b2; }
+  nav button { background: #24393f; color: #eef3f2; border: 0; border-radius: 6px; padding: 6px 14px; cursor: pointer; font: inherit; }
+</style>
+</head>
+<body>
+  <section class="slide on">
+    <div class="kicker">Ⅰ. 공간 정보와 지리 탐구</div>
+    <h1>1. 지리 탐구의 시작</h1>
+    <p>오늘 등굣길에서 본 것 중에 “왜 저기에 있을까?” 싶은 것이 있었나요?</p>
+  </section>
+  <section class="slide">
+    <div class="kicker">생각 열기</div>
+    <h2>편의점은 왜 학교 앞에 모여 있을까?</h2>
+    <ul><li>누가 이용하는가?</li><li>언제 붐비는가?</li><li>다른 동네에서도 그런가?</li></ul>
+  </section>
+  <section class="slide">
+    <div class="kicker">지리적 관점</div>
+    <h2>같은 현상, 다섯 가지 질문</h2>
+    <div class="grid">
+      <div><b>위치</b><span>어디에 있는가?</span></div>
+      <div><b>장소</b><span>어떤 특성을 가진 곳인가?</span></div>
+      <div><b>지역</b><span>비슷한 곳은 어디까지인가?</span></div>
+      <div><b>공간 상호 작용</b><span>사람·물자·정보가 어떻게 오가는가?</span></div>
+      <div><b>인간과 환경</b><span>자연환경과 어떤 관계인가?</span></div>
+    </div>
+  </section>
+  <section class="slide">
+    <div class="kicker">탐구 과정</div>
+    <h2>질문에서 결론까지</h2>
+    <ul><li>질문 만들기 → 가설 세우기</li><li>자료 수집 (문헌·통계·야외조사·지리정보)</li><li>분석과 시각화 → 결론과 공유</li></ul>
+  </section>
+  <section class="slide">
+    <div class="kicker">활동</div>
+    <h2>학습지 활동 1~3을 해 봅시다</h2>
+    <p>모둠별로 동네의 현상 하나를 골라 탐구 계획까지 세워 보세요. (15분)</p>
+  </section>
+  <nav><button id="prev">‹ 이전</button><span id="count"></span><button id="next">다음 ›</button></nav>
+<script>
+  var s = document.querySelectorAll(".slide"), i = 0;
+  function show(n) { i = Math.max(0, Math.min(s.length - 1, n)); s.forEach(function (el, k) { el.classList.toggle("on", k === i); }); document.getElementById("count").textContent = (i + 1) + " / " + s.length; }
+  document.getElementById("prev").onclick = function () { show(i - 1); };
+  document.getElementById("next").onclick = function () { show(i + 1); };
+  document.addEventListener("keydown", function (e) { if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") show(i + 1); if (e.key === "ArrowLeft" || e.key === "PageUp") show(i - 1); });
+  document.addEventListener("click", function (e) { if (!e.target.closest("button")) show(i + 1); });
+  show(0);
+</script>
+</body>
+</html>

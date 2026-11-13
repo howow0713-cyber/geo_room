@@ -1,0 +1,41 @@
+/* 학습지 화면: 쪽 이미지 위에 빈칸 정답 버튼을 겹쳐 놓음 */
+:root {
+  --bg: #e4e8e7; --bar: #f9faf9; --ink: #18282f; --muted: #5a6b70; --line: #cfd8d6;
+  --accent: #1f6f78; --answer: #c2410c; --hint: rgba(31, 111, 120, .12);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0f1619; --bar: #182327; --ink: #e3ebea; --muted: #93a5a8; --line: #2b3a3f; --accent: #6cc0c6; --hint: rgba(108, 192, 198, .18); color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
+.sheet-bar {
+  position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 8px 14px; background: var(--bar); border-bottom: 1px solid var(--line); font-size: 13px;
+}
+.sheet-title { font-weight: 700; margin-right: auto; }
+.sheet-count { color: var(--muted); }
+.sheet-bar button, .sheet-bar a {
+  font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+  padding: 4px 10px; cursor: pointer; text-decoration: none;
+}
+.sheet-bar button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bar); font-weight: 600; }
+main { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 14px; }
+.page { position: relative; width: 100%; max-width: 900px; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .18); container-type: inline-size; }
+.page img { display: block; width: 100%; height: auto; }
+.ans {
+  position: absolute; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0;
+  border: 0; border-radius: 2px; background: var(--hint); cursor: pointer; white-space: nowrap;
+  font-family: "IBM Plex Sans KR", "Malgun Gothic", sans-serif; font-weight: 700; line-height: 1; color: transparent;
+}
+.ans:hover { outline: 1.5px solid #1f6f78; }
+.ans.on { background: rgba(255, 237, 213, .92); color: var(--answer); }
+.ans:focus-visible { outline: 2px solid #1f6f78; }
+@media print { .sheet-bar { display: none; } .ans { display: none; } main { padding: 0; } .page { box-shadow: none; } }
+/* 확대·축소 */
+.zoom { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.sheet-bar .zoom button { border: 0; border-radius: 0; padding: 4px 10px; min-width: 34px; }
+.sheet-bar .zoom button + button { border-left: 1px solid var(--line); }
+#zoom-val { min-width: 58px; font-variant-numeric: tabular-nums; }
+main { display: block; }
+.sheet-bar { left: 0; width: 100vw; }
+.page { margin: 0 auto 14px; max-width: none; }
