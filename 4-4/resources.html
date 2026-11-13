@@ -50,6 +50,37 @@
 .ph .loc path { fill: #c5ccc8; stroke: var(--surface); stroke-width: 6; }
 .ph .loc circle { fill: #dc2626; stroke: #fff; stroke-width: 10; }
 .ph .loc text { font-size: 84px; font-weight: 700; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 14px; }
+/* 수능특강 확인 */
+.quiz-wrap { padding: 12px 14px 14px; border: 1.5px dashed var(--accent); border-radius: 10px; background: var(--surface); display: flex; flex-direction: column; gap: 10px; }
+.quiz-wrap > h3 { font-size: 16px; color: var(--accent); }
+.quiz-wrap > h3::before { content: "✎ "; }
+.quiz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.quiz { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.quiz h4 { font-size: 15px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.quiz .gallery { grid-template-columns: 1fr; }
+.quiz .ph { border: 0; }
+.quiz .ph .cap { display: none; }
+.quiz .qq { margin: 0; font-size: 14.5px; }
+.quiz details { font-size: 14.5px; }
+.quiz summary { cursor: pointer; display: inline-block; font-size: 13px; font-weight: 600; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 2px 10px; list-style: none; }
+.quiz summary::-webkit-details-marker { display: none; }
+.quiz details[open] summary { background: var(--accent); color: var(--surface); }
+.quiz details p { margin: 6px 0 0; padding: 8px 10px; background: var(--accent-soft); border-radius: 6px; }
+/* 지도 크게 보기 */
+.map-zoom-btn { position: absolute; right: 6px; top: 6px; z-index: 3; font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.map-zoom-btn:hover { border-color: var(--accent); }
+.block.map-full { position: fixed; inset: 0; z-index: 60; border-radius: 0; overflow: auto; padding: 16px 20px; }
+.block.map-full .kmap-grid { grid-template-columns: minmax(0, 2.2fr) minmax(240px, 1fr); }
+.block.map-full .kmap-svg { max-height: calc(100vh - 110px); width: 100%; }
+.block.map-full .kmap-ptlabel { font-size: 16px; }
+body.has-map-full { overflow: hidden; }
+.ph .loc { cursor: zoom-in; }
+.loc-view { position: fixed; inset: 0; z-index: 70; background: rgba(8, 14, 16, .9); display: flex; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+.loc-view svg { height: min(88vh, 900px); width: auto; max-width: 92vw; background: var(--surface); border-radius: 10px; padding: 16px; }
+.loc-view svg path { fill: #c5ccc8; stroke: #fff; stroke-width: 2; }
+.loc-view svg circle { fill: #dc2626; stroke: #fff; stroke-width: 4; r: 16px; }
+.loc-view svg text { font-size: 40px; font-weight: 700; fill: #18282f; paint-order: stroke; stroke: #fff; stroke-width: 8px; }
+.loc-view .cap { position: fixed; left: 0; right: 0; bottom: 14px; text-align: center; color: #fff; font-size: 16px; font-weight: 600; }
 .why .q::before { content: "Q. "; font-weight: 700; color: var(--accent); }
 /* 막대그래프 · 움짤 */
 .hbars { display: flex; flex-direction: column; gap: 7px; margin: 0; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
@@ -82,7 +113,7 @@
       <tbody>
         <tr><td>72쪽</td><td><a href="#s72">1. 1차 에너지 · 소비 구조 · 1차 에너지 비교</a></td><td>수입 의존도, 공급 비중·온실가스 그래프</td></tr>
         <tr><td>73쪽</td><td><a href="#s73a">1) 생산 지역 (석탄 · 원자력)</a></td><td>생산량 순서 그래프, 평안 누층군 지도, 원자력 사진</td></tr>
-        <tr><td>73쪽</td><td><a href="#s73b">2)(1) 시·도 간 공급량 · (2) 자원별 공급량</a></td><td>사진·지도로 보는 '왜 그곳에서 많이 쓸까'</td></tr>
+        <tr><td>73쪽</td><td><a href="#s73b">2)(1) 시·도 간 공급량 · (2) 자원별 공급량</a></td><td>사진·지도로 보는 '왜 그곳에서 많이 쓸까', 수능특강 (가)~(다) 확인</td></tr>
         <tr><td>74쪽</td><td><a href="#s74">신·재생 에너지 (태양광 · 수력 · 풍력 · 조력) · 양수 발전</a></td><td>입지 그림, 생산량 그래프, 수력 사진, 양수 발전 움짤과 통계 비교</td></tr>
         <tr><td>75쪽</td><td><a href="#s75">3) 전력 생산 · 입지 조건과 분포</a></td><td>발전소 사진·지도, 독일 vs 프랑스</td></tr>
         <tr><td>76쪽</td><td><a href="#s76">2. 에너지 쟁점 · 시·도별 발전량과 판매량</a></td><td>충남 발전 1위·경기 소비 1위, 송전탑, 국산 가스</td></tr>
@@ -131,6 +162,17 @@
         <div class="hbar warm"><span>풍력</span><span class="track"><i style="width:2.9%"></i></span><span class="v">26</span></div>
         <figcaption class="src">교과서 156쪽 · 유럽 연합 합동 연구 센터(JRC, 2021)</figcaption>
       </figure>
+    </div>
+    <div class="quiz-wrap">
+      <h3>수능특강으로 확인하기</h3>
+      <div class="quiz-grid">
+      <div class="quiz">
+        <h4>1차 에너지 공급량 비율 변화 <span class="ws">72쪽 2)(1) 소비 비중</span></h4>
+        <div class="gallery full" data-photos='[["sk-share","1차 에너지 공급량 비율 변화",""]]'></div>
+        <p class="qq">A~D는 석유, 석탄, 천연가스, 원자력 중 하나예요. 각각 무엇일까?</p>
+        <details><summary>정답 보기</summary><p>A 석유 · B 석탄 · C 천연가스 · D 원자력<br>석유는 늘 1위지만 비율은 줄고, 천연가스는 꾸준히 늘었다.</p></details>
+      </div>
+      </div>
     </div>
   </section>
 
@@ -208,6 +250,35 @@
       <div id="map-facility"></div>
       <p class="ask"><b>질문</b>세 시설이 모두 바닷가 항구에 있는 까닭은?</p>
     </div>
+    <div class="quiz-wrap">
+      <h3>수능특강으로 확인하기</h3>
+      <div class="quiz-grid">
+      <div class="quiz">
+        <h4>시·도별 1차 에너지 공급량 <span class="ws">73쪽 2)(1) 시·도 간 공급량</span></h4>
+        <div class="gallery full" data-photos='[["sk-supply-sido","시·도별 1차 에너지 공급량",""]]'></div>
+        <p class="qq">(가), (나)는 어느 시·도이고, A, B는 어떤 에너지일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 충남 · (나) 경기 · A 석유 · B 원자력<br>충남은 석유 화학(서산)·제철(당진)·화력 발전(보령·태안·당진)이 모두 있어 1위. 경기는 인구가 많아 석유·천연가스를 많이 쓴다.</p></details>
+      </div>
+      <div class="quiz">
+        <h4>세 화석 에너지의 공급량 상위 5개 시·도 <span class="ws">73쪽 2)(2) 자원별 공급량</span></h4>
+        <div class="gallery full" data-photos='[["sk-fossil-map","세 화석 에너지의 공급량 상위 5개 시·도",""]]'></div>
+        <p class="qq">(가)~(다)는 석탄, 석유, 천연가스 중 하나예요. 각각 무엇일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 천연가스 · (나) 석유 · (다) 석탄<br>천연가스는 수도권(경기·인천), 석유는 석유 화학 단지가 있는 울산·전남·충남, 석탄은 화력 발전소·제철소가 있는 충남·경북·전남·강원·경남.</p></details>
+      </div>
+      <div class="quiz">
+        <h4>세 지역의 1차 에너지 공급 구조 <span class="ws">73쪽 2)(2) 자원별 공급량</span></h4>
+        <div class="gallery full" data-photos='[["sk-3region","세 지역의 1차 에너지 공급 구조",""]]'></div>
+        <p class="qq">(가)~(다)는 지도의 충남, 충북, 경북 중 하나예요. 각각 어디일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 충북 · (나) 경북 · (다) 충남<br>원자력이 절반이면 원전이 가장 많은 경북, 석탄이 가장 많으면 충남, 석탄·원자력이 없으면 충북.</p></details>
+      </div>
+      <div class="quiz">
+        <h4>네 지역의 1차 에너지 공급량 <span class="ws">73쪽 2)(2) 석탄 · 천연가스 · 원자력</span></h4>
+        <div class="gallery full" data-photos='[["sk-4region","네 지역의 1차 에너지 공급량",""]]'></div>
+        <p class="qq">(가)~(라)는 지도의 경기, 충남, 전남, 울산 중 하나이고, A~C는 석탄, 원자력, 천연가스 중 하나예요.</p>
+        <details><summary>정답 보기</summary><p>(가) 충남 · (나) 전남 · (다) 경기 · (라) 울산<br>A 석탄 · B 천연가스 · C 원자력<br>경기는 석탄·원자력 없이 천연가스(B)가 많고, 원자력(C)은 원전이 있는 전남·울산에만 있다.</p></details>
+      </div>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== 74쪽 ===================== -->
@@ -263,6 +334,29 @@
       <div class="gallery full" data-photos='[["gn-hydro","③ 1차 에너지 수력 vs 신·재생 에너지 수력 (시·도별)","파란색 = 일반 수력(신·재생 통계) / 흰색 = 양수식 수력"]]'></div>
       <p class="ask"><b>질문</b>양수식을 넣으면 경북·경남(낙동강)이, 빼면 강원·충북·경기(한강)가 앞서는 까닭은? (힌트: 영남권의 원자력 발전소)</p>
     </div>
+    <div class="quiz-wrap">
+      <h3>수능특강으로 확인하기</h3>
+      <div class="quiz-grid">
+      <div class="quiz">
+        <h4>신·재생 에너지 총발전량과 시·도별 비율 <span class="ws">74쪽 국내 생산량 · 분포</span></h4>
+        <div class="gallery full" data-photos='[["sk-renew","신·재생 에너지 총발전량과 시·도별 비율",""]]'></div>
+        <p class="qq">(가)~(라)는 태양광, 수력, 풍력, 조력 중 하나예요. A, B는 어느 시·도일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 태양광 · (나) 수력 · (다) 풍력 · (라) 조력 · A 경북 · B 경기<br>조력은 시화호가 있는 경기가 100%. 수력(양수식 제외)은 충북·강원 등 한강 유역이 많다.</p></details>
+      </div>
+      <div class="quiz">
+        <h4>세 재생 에너지의 지역별 발전량 비율 <span class="ws">74쪽 태양광 · 수력 · 풍력 분포</span></h4>
+        <div class="gallery full" data-photos='[["sk-pie","세 재생 에너지의 지역별 발전량 비율",""]]'></div>
+        <p class="qq">(가)~(다)는 수력, 태양광, 풍력 중 하나예요. 각각 무엇일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 풍력 · (나) 태양광 · (다) 수력<br>풍력은 강원·경북·제주, 태양광은 전남·전북, 수력은 충북·강원·경기(한강 유역).</p></details>
+      </div>
+      <div class="quiz">
+        <h4>네 지역의 재생 에너지 발전량 <span class="ws">74쪽 시·도별 생산량</span></h4>
+        <div class="gallery full" data-photos='[["sk-renew4","네 지역의 재생 에너지 발전량",""]]'></div>
+        <p class="qq">(가)~(라)는 지도의 충북, 경북, 전남, 제주 중 하나예요. 각각 어디일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 전남 · (나) 경북 · (다) 충북 · (라) 제주<br>태양광 1위는 전남, 수력 비중이 큰 곳은 충북(충주댐), 규모가 작고 풍력 비중이 큰 곳은 제주.</p></details>
+      </div>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== 75쪽 ===================== -->
@@ -313,6 +407,23 @@
         <div class="gallery" data-photos='[["tb-germany","독일 · 철거되는 원전",""]]'></div>
         <p>2023년 4월 15일 마지막 원전 3기를 끄고 탈원전을 마쳤다(<a href="https://www.world-nuclear-news.org/Articles/A-guide-The-end-of-Germany%E2%80%99s-nuclear-power" target="_blank" rel="noopener">WNN</a>).</p>
       </article>
+    </div>
+    <div class="quiz-wrap">
+      <h3>수능특강으로 확인하기</h3>
+      <div class="quiz-grid">
+      <div class="quiz">
+        <h4>발전 설비 용량과 발전량 비율 (2024) <span class="ws">75쪽 (1) 전력 발전 양식</span></h4>
+        <div class="gallery full" data-photos='[["sk-cap","발전 설비 용량과 발전량 비율 (2024)",""]]'></div>
+        <p class="qq">(가)~(다)는 화력, 원자력, 수력 중 하나예요. 각각 무엇일까?</p>
+        <details><summary>정답 보기</summary><p>(가) 원자력 · (나) 화력 · (다) 수력(양수식)<br>원자력은 설비 비율(약 17%)보다 발전량 비율(약 32%)이 훨씬 높다. 쉬지 않고 돌리기 때문.</p></details>
+      </div>
+      <div class="quiz">
+        <h4>1차 에너지원별 발전량 변화 <span class="ws">75쪽 (2)① 국내 발전량</span></h4>
+        <div class="gallery full" data-photos='[["sk-gen-trend","1차 에너지원별 발전량 변화",""]]'></div>
+        <p class="qq">A~D는 석탄, 석유, 천연가스, 원자력 중 하나예요. 각각 무엇일까?</p>
+        <details><summary>정답 보기</summary><p>A 석탄 · B 원자력 · C 천연가스 · D 석유<br>2023년까지는 석탄(A)이 근소하게 많고, 2024년에 원자력(B)이 1위가 된다.</p></details>
+      </div>
+      </div>
     </div>
   </section>
 
@@ -428,6 +539,34 @@
 <script src="maps.js"></script>
 <script>
 /* 교과서 사진은 링크 없이 출처만 표시 */
+/* 지도 크게 보기 */
+(function () {
+  document.querySelectorAll('.block').forEach(function (b) {
+    var m = b.querySelector('[id^="map-"] .kmap-map') ; if (!m) return;
+    var btn = document.createElement("button"); btn.type = "button"; btn.className = "map-zoom-btn"; btn.textContent = "⤢ 크게 보기";
+    m.style.position = "relative"; m.appendChild(btn);
+    btn.addEventListener("click", function () {
+      var on = !b.classList.contains("map-full");
+      b.classList.toggle("map-full", on); document.body.classList.toggle("has-map-full", on);
+      btn.textContent = on ? "× 닫기" : "⤢ 크게 보기";
+      if (on) b.scrollTop = 0; else b.scrollIntoView({ block: "center" });
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    var f = document.querySelector(".block.map-full"); if (f) f.querySelector(".map-zoom-btn").click();
+    var v = document.querySelector(".loc-view"); if (v) v.remove();
+  });
+  document.addEventListener("click", function (e) {
+    var svg = e.target.closest && e.target.closest(".ph .loc"); if (!svg) return;
+    e.stopPropagation();
+    var v = document.createElement("div"); v.className = "loc-view";
+    var c = svg.cloneNode(true); c.removeAttribute("class"); v.appendChild(c);
+    var cap = svg.closest("figure").querySelector(".cap"); v.insertAdjacentHTML("beforeend", '<div class="cap">' + (cap ? cap.textContent : "") + "</div>");
+    v.addEventListener("click", function () { v.remove(); });
+    document.body.appendChild(v);
+  }, true);
+})();
 /* 사진 옆 위치 지도 */
 (function () {
   var G = window.KOREA_SIDO; if (!G) return;

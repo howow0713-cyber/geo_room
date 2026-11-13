@@ -219,7 +219,67 @@ window.PHOTOS = {
  "u-renew-gen": {
   "src": "photos/u-renew-gen.webp",
   "page": "",
-  "artist": "효주 선생님 제공 자료 (원자료: 한국에너지공단)",
+  "artist": "효주 선생님 제공 자료 (2027 수능특강 한국지리 91쪽, 원자료: 한국에너지공단)",
   "license": "수업 자료"
+ },
+ "sk-supply-sido": {
+  "src": "photos/sk-supply-sido.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 90쪽",
+  "license": "수업용 인용"
+ },
+ "sk-renew": {
+  "src": "photos/sk-renew.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 91쪽",
+  "license": "수업용 인용"
+ },
+ "sk-share": {
+  "src": "photos/sk-share.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 92쪽",
+  "license": "수업용 인용"
+ },
+ "sk-cap": {
+  "src": "photos/sk-cap.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 93쪽",
+  "license": "수업용 인용"
+ },
+ "sk-fossil-map": {
+  "src": "photos/sk-fossil-map.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 93쪽",
+  "license": "수업용 인용"
+ },
+ "sk-3region": {
+  "src": "photos/sk-3region.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 93쪽",
+  "license": "수업용 인용"
+ },
+ "sk-pie": {
+  "src": "photos/sk-pie.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 93쪽",
+  "license": "수업용 인용"
+ },
+ "sk-gen-trend": {
+  "src": "photos/sk-gen-trend.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 95쪽",
+  "license": "수업용 인용"
+ },
+ "sk-4region": {
+  "src": "photos/sk-4region.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 95쪽",
+  "license": "수업용 인용"
+ },
+ "sk-renew4": {
+  "src": "photos/sk-renew4.webp",
+  "page": "",
+  "artist": "2027 수능특강 한국지리 96쪽",
+  "license": "수업용 인용"
  }
 };
